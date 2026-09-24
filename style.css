@@ -1,0 +1,77 @@
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#22444c;background:#e9fbf6;font-synthesis:none}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;min-height:100dvh}
+button{font:inherit;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.game{min-height:100vh;min-height:100dvh;max-width:950px;margin:auto;padding:calc(env(safe-area-inset-top) + 14px) 20px calc(env(safe-area-inset-bottom) + 20px);background:linear-gradient(#d7f8f4,#fff5dd);overflow:hidden}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:clamp(22px,3.4vw,30px);color:#23585b}
+.brand span:first-child{font-size:34px}
+.top-actions{display:flex;gap:10px}
+.small-button{border:2px solid #bbdfd7;border-radius:18px;background:#fff;padding:9px 15px;min-width:58px;min-height:48px;font-size:19px;font-weight:800;box-shadow:0 4px 0 #b6d9d1}
+.small-button:active,.primary-button:active,.answer-button:active{transform:translateY(3px);box-shadow:none}
+.screen{display:none;flex-direction:column;align-items:center;text-align:center}
+.screen.active{display:flex}
+h1,h2,p{margin:0}
+h1{font-size:clamp(31px,5vw,48px);line-height:1.12;max-width:680px}
+h2{font-size:clamp(25px,3.8vw,36px);line-height:1.12}
+p{font-size:clamp(19px,2.8vw,25px);line-height:1.35}
+.primary-button{background:#ff8c55;border:0;border-radius:25px;padding:16px 38px;color:#fff;font-size:clamp(25px,3.5vw,34px);font-weight:900;box-shadow:0 8px 0 #d75f3a;min-height:68px}
+.welcome-art{position:relative;width:min(100%,640px);height:clamp(180px,29vh,280px);margin:25px auto 12px;border-radius:38px;background:linear-gradient(#a8eafa 0 66%,#81d89c 66%);overflow:hidden}
+.welcome-art:after{content:"";position:absolute;bottom:20px;left:0;right:0;height:46px;background:#6b7379;border-top:7px solid #fff0b5;border-bottom:7px solid #fff0b5}
+.sun{position:absolute;top:12px;right:50px;font-size:55px}
+.cloud{position:absolute;top:30px;left:70px;font-size:50px}
+.hero-car{position:absolute;bottom:17px;left:20%;z-index:2;font-size:clamp(70px,10vw,105px)}
+.hero-bear{position:absolute;bottom:82px;left:24%;z-index:3;font-size:clamp(42px,6vw,60px)}
+.hero-cones{position:absolute;bottom:75px;right:8%;font-size:clamp(25px,4vw,39px)}
+#welcomeScreen h1{margin-top:10px}
+#welcomeScreen p{margin:15px 0 28px;max-width:650px}
+#finishScreen{justify-content:center;min-height:70vh;gap:22px}
+.finish-art{font-size:clamp(58px,10vw,95px);letter-spacing:10px;max-width:100%}
+.progress-row{display:flex;align-items:center;gap:15px;width:100%;max-width:750px;margin:16px auto 13px;font-size:20px;font-weight:900;white-space:nowrap}
+.progress-track{flex:1;height:19px;border-radius:99px;background:#c5e8db;overflow:hidden}
+.progress-track div{height:100%;width:0;background:#ffbf4f;border-radius:inherit;transition:width .5s}
+.race-scene{position:relative;width:100%;height:clamp(145px,23vh,220px);border-radius:28px;overflow:hidden;background:linear-gradient(#a8e9f4 0 64%,#80d99a 64%)}
+.sky-decor{position:absolute;top:5px;right:8%;font-size:35px}
+.sky-decor span{margin-left:110px}
+.hills{position:absolute;bottom:45px;left:-5%;width:110%;height:55px;background:#69c38a;border-radius:50% 50% 0 0}
+.road{position:absolute;bottom:0;width:100%;height:74px;background:#697279;border-top:7px solid #f8e39c}
+.road-stripes{position:absolute;top:31px;width:100%;height:5px;background:repeating-linear-gradient(90deg,#fff9dc 0 45px,transparent 45px 85px)}
+.finish-line{position:absolute;right:4%;top:-42px;height:115px;width:17px;background:repeating-conic-gradient(#fff 0 25%,#394349 0 50%) 50%/18px 18px;z-index:2}
+.race-car{position:absolute;left:7%;bottom:14px;z-index:3;transition:left .8s ease;font-size:58px;line-height:1}
+.race-car .driver{position:absolute;font-size:36px;left:20px;top:-23px}
+.race-car .car-body{position:relative}
+.race-scene+h2{margin:18px 0 14px}
+.counting-area{width:100%;max-width:750px;min-height:clamp(100px,17vh,150px);display:flex;align-items:center;justify-content:center;gap:clamp(4px,2vw,22px);background:#fffefa;border:4px solid #f8ddac;border-radius:28px;padding:8px 16px}
+.cone{font-size:clamp(46px,8vw,75px);line-height:1;animation:pop .25s backwards}
+.cone:nth-child(2){animation-delay:.06s}
+.cone:nth-child(3){animation-delay:.12s}
+.cone:nth-child(4){animation-delay:.18s}
+.cone:nth-child(5){animation-delay:.24s}
+@keyframes pop{from{transform:scale(.3);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+.answers{display:flex;justify-content:center;gap:clamp(12px,4vw,32px);width:100%;margin-top:17px}
+.answer-button{width:clamp(82px,15vw,125px);height:clamp(82px,15vw,120px);border:4px solid #fff;border-radius:27px;background:#fff;color:#315b6c;font-size:clamp(45px,8vw,70px);font-weight:900;box-shadow:0 7px 0 #b9d9d3}
+.answer-button.wrong{background:#f5d9d4;color:#a66b68}
+.answer-button.right{background:#a8ecad;color:#286f44}
+.answer-button:disabled{cursor:default}
+.feedback{min-height:34px;margin-top:13px;font-weight:800}
+.feedback.success{color:#218551}
+.feedback.retry{color:#b75e3f}
+@media(max-height:690px){.welcome-art{height:170px;margin:10px auto}
+.race-scene{height:130px}
+.counting-area{min-height:85px}
+.cone{font-size:52px}
+.answer-button{height:74px;width:86px;font-size:51px}
+.race-scene+h2{margin:9px 0}
+.answers{margin-top:10px}
+}
+@media(max-width:520px){.game{padding-left:12px;padding-right:12px}
+.brand{font-size:20px}
+.brand span:first-child{font-size:26px}
+.small-button{font-size:15px;min-width:46px;padding:7px}
+.hero-cones{right:2%;font-size:25px}
+.counting-area{padding:6px}
+.cone{font-size:clamp(38px,10vw,53px)}
+.finish-art{letter-spacing:0}
+}

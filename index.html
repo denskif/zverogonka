@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#75d5c5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Зверогонка">
+  <meta name="description" content="Весёлая гонка на счёт для детей от четырёх лет">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./assets/cones.css">
+  <title>Зверогонка</title>
+</head>
+<body>
+  <main class="game" id="game">
+    <header class="topbar">
+      <div class="brand"><span aria-hidden="true">🐻</span><span data-i18n="title">Зверогонка</span></div>
+      <div class="top-actions">
+        <button class="small-button" id="languageButton" type="button" aria-label="Change language">УКР</button>
+        <button class="small-button" id="soundButton" type="button" aria-label="Звук" aria-pressed="true">🔊</button>
+      </div>
+    </header>
+
+    <section class="screen active" id="welcomeScreen" aria-labelledby="welcomeTitle">
+      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><span class="hero-car">🚙</span><span class="hero-bear">🐻</span><span class="hero-cones">🚧 🚧 🚧</span></div>
+      <h1 id="welcomeTitle" data-i18n="welcome">Помоги мишке выиграть гонку!</h1>
+      <p data-i18n="instructions">Считай дорожные конусы и выбирай правильную цифру.</p>
+      <button class="primary-button" id="startButton" type="button" data-i18n="start">Играть ▶</button>
+    </section>
+
+    <section class="screen" id="playScreen" aria-labelledby="questionTitle">
+      <div class="progress-row"><span id="roundLabel">1 / 5</span><div class="progress-track" aria-hidden="true"><div id="progressFill"></div></div><span id="starsLabel" aria-label="Звёзды">⭐ 0</span></div>
+      <div class="race-scene" aria-hidden="true">
+        <div class="sky-decor">☀️ <span>☁️</span></div>
+        <div class="hills"></div>
+        <div class="road"><div class="finish-line"></div><div class="road-stripes"></div><div class="race-car" id="raceCar"><span class="driver">🐻</span><span class="car-body">🚙</span></div></div>
+      </div>
+      <h2 id="questionTitle" data-i18n="question">Сколько конусов на дороге?</h2>
+      <div class="counting-area" id="countingArea" aria-label="Конусы для счёта"></div>
+      <div class="answers" id="answers" role="group" aria-label="Выбери цифру"></div>
+      <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="screen" id="finishScreen" aria-labelledby="finishTitle">
+      <div class="finish-art" aria-hidden="true">🏁 🐻 🚙 ⭐</div>
+      <h1 id="finishTitle" data-i18n="finish">Ура, мишка на финише!</h1>
+      <p id="resultText"></p>
+      <button class="primary-button" id="againButton" type="button" data-i18n="again">Играть ещё ↻</button>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
