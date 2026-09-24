@@ -103,7 +103,7 @@ function renderRound() {
   $('countingArea').setAttribute('aria-label', t('coneLabel', { count: round.count }));
   const coneGrid = document.createElement('div');
   coneGrid.className = 'cone-grid';
-  coneGrid.style.setProperty('--columns', Math.min(round.count, 5));
+  coneGrid.style.setProperty('--columns', round.count);
   for (let i = 0; i < round.count; i++) {
     const cone = document.createElement('span');
     cone.className = 'cone';
