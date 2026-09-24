@@ -1,32 +1,30 @@
 import {
-  ROUND_COUNT, ROUND_SECONDS, START_POSITIONS,
-  makeRound, checkAnswer, secondsLeft, advanceRace, bearWon
+  ROUND_COUNT, START_POSITIONS,
+  makeRound, checkAnswer, advanceRace, spiderWon
 } from './logic.mjs';
 
 const words = {
   ru: {
-    title: 'Зверогонка', welcome: 'Помоги мишке выиграть гонку!',
-    instructions: 'Считай конусы и помоги мишке обогнать утку и ёжика!',
-    start: 'Играть ▶', question: 'Сколько конусов на дороге?', seconds: 'с',
-    correct: 'Верно! Мишка вырывается вперёд!',
-    wrong: 'Ой! Утка и ёжик обогнали мишку!',
-    timeout: 'Время вышло! Соперники обгоняют!',
-    finishWin: 'Ура, мишка победил!', finishLose: 'Гонка закончилась! Попробуем ещё?',
+    title: 'Супергонка', welcome: 'Помоги Человеку-пауку выиграть гонку!',
+    instructions: 'Считай конусы и обгоняй Халка и Локи!',
+    start: 'Играть ▶', question: 'Сколько конусов на дороге?',
+    correct: 'Верно! Человек-паук вырывается вперёд!',
+    wrong: 'Ой! Халк и Локи обогнали!',
+    finishWin: 'Ура, Человек-паук победил!', finishLose: 'Гонка закончилась! Попробуем ещё?',
     again: 'Играть ещё ↻', result: 'Правильных ответов: {stars} из {rounds}.',
     coneLabel: 'Дорожных конусов: {count}', choose: 'Выбери цифру', sound: 'Звук',
-    timeLeft: 'Осталось {seconds} секунд', raceLabel: 'Гонка: мишка, утка и ёжик'
+    raceLabel: 'Гонка: Человек-паук, Халк и Локи'
   },
   uk: {
-    title: 'Звірогонка', welcome: 'Допоможи ведмедику виграти перегони!',
-    instructions: 'Порахуй конуси та допоможи ведмедику обігнати качку й їжачка!',
-    start: 'Грати ▶', question: 'Скільки конусів на дорозі?', seconds: 'с',
-    correct: 'Правильно! Ведмедик виривається вперед!',
-    wrong: 'Ой! Качка та їжачок обігнали ведмедика!',
-    timeout: 'Час вийшов! Суперники обганяють!',
-    finishWin: 'Ура, ведмедик переміг!', finishLose: 'Перегони завершилися! Спробуємо ще?',
+    title: 'Суперперегони', welcome: 'Допоможи Людині-павуку виграти перегони!',
+    instructions: 'Порахуй конуси та обжени Галка й Локі!',
+    start: 'Грати ▶', question: 'Скільки конусів на дорозі?',
+    correct: 'Правильно! Людина-павук виривається вперед!',
+    wrong: 'Ой! Галк і Локі обігнали!',
+    finishWin: 'Ура, Людина-павук перемогла!', finishLose: 'Перегони завершилися! Спробуємо ще?',
     again: 'Грати ще ↻', result: 'Правильних відповідей: {stars} із {rounds}.',
     coneLabel: 'Дорожніх конусів: {count}', choose: 'Обери цифру', sound: 'Звук',
-    timeLeft: 'Залишилося {seconds} секунд', raceLabel: 'Перегони: ведмедик, качка та їжачок'
+    raceLabel: 'Перегони: Людина-павук, Галк та Локі'
   }
 };
 
@@ -40,8 +38,6 @@ let round = null;
 let positions = { ...START_POSITIONS };
 let resolved = false;
 let lastOutcome = null;
-let deadline = 0;
-let ticker = null;
 let advanceTimer = null;
 
 function t(key, values = {}) {
@@ -63,7 +59,6 @@ function renderLanguage() {
   if (round) $('countingArea').setAttribute('aria-label', t('coneLabel', { count: round.count }));
   if (lastOutcome) $('feedback').textContent = t(lastOutcome);
   if ($('finishScreen').classList.contains('active')) renderResult();
-  if ($('playScreen').classList.contains('active') && !resolved) updateTimer();
 }
 
 function playTone(frequency, duration = 0.16) {
@@ -84,26 +79,20 @@ function playTone(frequency, duration = 0.16) {
 }
 
 function renderPositions() {
-  for (const [animal, id] of [['bear', 'bearCar'], ['duck', 'duckCar'], ['hedgehog', 'hedgehogCar']]) {
-    $(id).style.left = `${Math.min(positions[animal], 89)}%`;
+  for (const [animal, id] of [['spider', 'spiderCar'], ['hulk', 'hulkCar'], ['loki', 'lokiCar']]) {
+    $(id).style.left = `min(${Math.min(positions[animal], 92)}%, calc(100% - var(--car-width) - 5px))`;
   }
 }
 
-function updateTimer() {
-  if (resolved) return;
-  const now = Date.now();
-  const seconds = secondsLeft(deadline, now);
-  $('timerText').textContent = seconds;
-  $('timerRow').setAttribute('aria-label', t('timeLeft', { seconds }));
-  $('timerFill').style.width = `${Math.max(0, (deadline - now) / (ROUND_SECONDS * 1000) * 100)}%`;
-  $('timerRow').classList.toggle('danger', seconds <= 3);
-  if (now >= deadline) finishRound('timeout');
+function clearEffects() {
+  $('raceEffect').className = 'race-effect';
+  for (const id of ['spiderCar', 'hulkCar', 'lokiCar']) $(id).classList.remove('boost', 'dust');
 }
 
 function renderRound() {
   resolved = false;
   lastOutcome = null;
-  $('timerRow').style.visibility = 'visible';
+  clearEffects();
   $('feedback').textContent = '';
   $('feedback').className = 'feedback';
   $('roundLabel').textContent = `${roundIndex + 1} / ${ROUND_COUNT}`;
@@ -127,22 +116,16 @@ function renderRound() {
     button.addEventListener('click', () => answer(number, button));
     $('answers').append(button);
   }
-  deadline = Date.now() + ROUND_SECONDS * 1000;
-  clearInterval(ticker);
-  updateTimer();
-  ticker = setInterval(updateTimer, 100);
 }
 
 function answer(number, button) {
   if (resolved) return;
-  if (Date.now() >= deadline) { finishRound('timeout'); return; }
   finishRound(checkAnswer(round, number) ? 'correct' : 'wrong', button);
 }
 
 function finishRound(outcome, button = null) {
   if (resolved) return;
   resolved = true;
-  clearInterval(ticker);
   lastOutcome = outcome;
   const correct = outcome === 'correct';
   if (correct) stars++;
@@ -150,11 +133,17 @@ function finishRound(outcome, button = null) {
   $('answers').querySelectorAll('button').forEach(choice => { choice.disabled = true; });
   $('feedback').textContent = t(outcome);
   $('feedback').className = `feedback ${correct ? 'success' : 'retry'}`;
-  $('timerRow').style.visibility = 'hidden';
   $('starsLabel').textContent = `⭐ ${stars}`;
   $('progressFill').style.width = `${(roundIndex + 1) / ROUND_COUNT * 100}%`;
   positions = advanceRace(positions, correct);
   renderPositions();
+  clearEffects();
+  $('raceEffect').classList.add(correct ? 'boost' : 'overtake');
+  if (correct) $('spiderCar').classList.add('boost');
+  else {
+    $('hulkCar').classList.add('dust');
+    $('lokiCar').classList.add('dust');
+  }
   playTone(correct ? 660 : 260);
   advanceTimer = setTimeout(() => {
     roundIndex++;
@@ -169,14 +158,13 @@ function finishRound(outcome, button = null) {
 }
 
 function renderResult() {
-  const won = bearWon(positions);
+  const won = spiderWon(positions);
   $('finishTitle').textContent = t(won ? 'finishWin' : 'finishLose');
-  $('finishArt').textContent = won ? '🏁 🐻 🏆' : '🏁 🦆 🦔 🐻';
+  $('finishArt').textContent = won ? '🏁 🕷️ 🏆' : '🏁 💚 👑 🕷️';
   $('resultText').textContent = t('result', { stars, rounds: ROUND_COUNT });
 }
 
 function startGame() {
-  clearInterval(ticker);
   clearTimeout(advanceTimer);
   roundIndex = 0;
   stars = 0;
@@ -198,9 +186,6 @@ $('soundButton').addEventListener('click', () => {
   localStorage.setItem('animal-race-sound', soundOn ? 'on' : 'off');
   $('soundButton').textContent = soundOn ? '🔊' : '🔇';
   $('soundButton').setAttribute('aria-pressed', String(soundOn));
-});
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && $('playScreen').classList.contains('active')) updateTimer();
 });
 $('soundButton').textContent = soundOn ? '🔊' : '🔇';
 $('soundButton').setAttribute('aria-pressed', String(soundOn));

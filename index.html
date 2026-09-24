@@ -6,19 +6,19 @@
   <meta name="theme-color" content="#75d5c5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Зверогонка">
+  <meta name="apple-mobile-web-app-title" content="Супергонка">
   <meta name="description" content="Весёлая гонка на счёт для детей от четырёх лет">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./assets/cones.css">
   <link rel="stylesheet" href="./assets/race.css">
-  <title>Зверогонка</title>
+  <title>Супергонка</title>
 </head>
 <body>
   <main class="game" id="game">
     <header class="topbar">
-      <div class="brand"><span aria-hidden="true">🐻</span><span data-i18n="title">Зверогонка</span></div>
+      <div class="brand"><span aria-hidden="true">🕷️</span><span data-i18n="title">Супергонка</span></div>
       <div class="top-actions">
         <button class="small-button" id="languageButton" type="button" aria-label="Change language">УКР</button>
         <button class="small-button" id="soundButton" type="button" aria-label="Звук" aria-pressed="true">🔊</button>
@@ -26,34 +26,35 @@
     </header>
 
     <section class="screen active" id="welcomeScreen" aria-labelledby="welcomeTitle">
-      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><span class="hero-car">🚙</span><span class="hero-bear">🐻</span><span class="hero-cones">🚧 🚧 🚧</span></div>
-      <h1 id="welcomeTitle" data-i18n="welcome">Помоги мишке выиграть гонку!</h1>
-      <p data-i18n="instructions">Считай конусы и помоги мишке обогнать утку и ёжика!</p>
+      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><img class="welcome-car welcome-spider" src="./assets/spider-car.svg" alt=""><img class="welcome-car welcome-hulk" src="./assets/hulk-car.svg" alt=""><img class="welcome-car welcome-loki" src="./assets/loki-car.svg" alt=""></div>
+      <h1 id="welcomeTitle" data-i18n="welcome">Помоги Человеку-пауку выиграть гонку!</h1>
+      <p data-i18n="instructions">Считай конусы и обгоняй Халка и Локи!</p>
       <button class="primary-button" id="startButton" type="button" data-i18n="start">Играть ▶</button>
     </section>
 
     <section class="screen" id="playScreen" aria-labelledby="questionTitle">
       <div class="progress-row"><span id="roundLabel">1 / 5</span><div class="progress-track" aria-hidden="true"><div id="progressFill"></div></div><span id="starsLabel" aria-label="Звёзды">⭐ 0</span></div>
-      <div class="race-scene race-scene-moving" id="race-scene" aria-label="Гонка: мишка, утка и ёжик">
+      <div class="race-scene race-scene-moving" id="race-scene" aria-label="Гонка: Человек-паук, Халк и Локи">
         <div class="moving-cloud" aria-hidden="true">☁️</div>
         <div class="moving-hill" aria-hidden="true"></div>
+        <div class="scenery-strip" aria-hidden="true"><span>🌳</span><span>🌼</span><span>🌲</span><span>⭐</span><span>🌳</span><span>🌼</span></div>
         <div class="race-lanes" aria-hidden="true">
-          <div class="lane"><div class="racer racer-duck" id="duckCar"><span class="racer-driver">🦆</span><span class="racer-car"></span></div></div>
-          <div class="lane"><div class="racer racer-bear" id="bearCar"><span class="racer-driver">🐻</span><span class="racer-car"></span></div></div>
-          <div class="lane"><div class="racer racer-hedgehog" id="hedgehogCar"><span class="racer-driver">🦔</span><span class="racer-car"></span></div></div>
+          <div class="lane"><div class="racer racer-hulk" id="hulkCar"><img src="./assets/hulk-car.svg" alt=""></div></div>
+          <div class="lane"><div class="racer racer-spider" id="spiderCar"><img src="./assets/spider-car.svg" alt=""></div></div>
+          <div class="lane"><div class="racer racer-loki" id="lokiCar"><img src="./assets/loki-car.svg" alt=""></div></div>
         </div>
         <div class="moving-finish" aria-hidden="true"></div>
+        <div class="race-effect" id="raceEffect" aria-hidden="true"></div>
       </div>
       <h2 id="questionTitle" data-i18n="question">Сколько конусов на дороге?</h2>
       <div class="counting-area" id="countingArea" aria-label="Конусы для счёта"></div>
-      <div class="timer-row" id="timerRow" role="timer"><span aria-hidden="true">⏱</span><strong id="timerText">10</strong><span data-i18n="seconds">с</span><div class="timer-track" aria-hidden="true"><div id="timerFill"></div></div></div>
       <div class="answers" id="answers" role="group" aria-label="Выбери цифру"></div>
       <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
     </section>
 
     <section class="screen" id="finishScreen" aria-labelledby="finishTitle">
-      <div class="finish-art" id="finishArt" aria-hidden="true">🏁 🐻 🚗 ⭐</div>
-      <h1 id="finishTitle">Ура, мишка победил!</h1>
+      <div class="finish-art" id="finishArt" aria-hidden="true">🏁 🕷️ 🏆</div>
+      <h1 id="finishTitle">Ура, Человек-паук победил!</h1>
       <p id="resultText"></p>
       <button class="primary-button" id="againButton" type="button" data-i18n="again">Играть ещё ↻</button>
     </section>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 110" role="img" aria-label="Халк за рулём фиолетовой машинки">
+  <defs><linearGradient id="paint" x2="0" y2="1"><stop stop-color="#ba91e8"/><stop offset="1" stop-color="#7651b5"/></linearGradient><linearGradient id="glass" x2="0" y2="1"><stop stop-color="#e4f9ff"/><stop offset="1" stop-color="#9bd4e6"/></linearGradient></defs>
+  <ellipse cx="89" cy="101" rx="76" ry="6" fill="#263b53" opacity=".2"/>
+  <circle cx="45" cy="88" r="17" fill="#374159"/><circle cx="137" cy="88" r="17" fill="#374159"/>
+  <path d="M18 68Q22 61 35 60h108q18 0 22 11l4 16q1 7-7 7H20q-8 0-7-8z" fill="url(#paint)" stroke="#68469d" stroke-width="3"/>
+  <path d="M48 62 65 32q5-9 15-9h39q12 0 17 12l14 27z" fill="#70529e" stroke="#573b88" stroke-width="3"/>
+  <path d="M59 59 72 35q3-5 10-5h32q9 0 12 6l10 23z" fill="url(#glass)"/>
+  <path d="M115 31v29" stroke="#72569d" stroke-width="4"/>
+  <path d="M72 39q0-21 22-20 24-2 23 20l-8 6H78z" fill="#283c33" stroke="#26342d" stroke-width="2"/>
+  <path d="M73 42q2-14 18-14h9q16 0 16 16l-4 13q-4 12-18 12T76 57z" fill="#75c66b" stroke="#4d9b57" stroke-width="2"/>
+  <path d="m77 43 14 3m7 0 14-4" stroke="#31513a" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="86" cy="49" r="2.7" fill="#223d35"/><circle cx="103" cy="49" r="2.7" fill="#223d35"/>
+  <path d="M87 59q8-5 16 0" fill="none" stroke="#316d44" stroke-width="3" stroke-linecap="round"/>
+  <path d="M109 64q9-9 17-2" fill="none" stroke="#5aad5e" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="125" cy="61" r="9" fill="none" stroke="#434b61" stroke-width="4"/>
+  <path d="M17 76h147" stroke="#d7b4fa" stroke-width="4" opacity=".8"/><path d="M152 72h12q5 1 5 6v5h-17z" fill="#fff0ae"/><path d="M16 78h9" stroke="#d35c7e" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="45" cy="88" r="8" fill="#e7f1f2"/><circle cx="137" cy="88" r="8" fill="#e7f1f2"/><circle cx="45" cy="88" r="3" fill="#8da9b7"/><circle cx="137" cy="88" r="3" fill="#8da9b7"/>
+  <g stroke="#7b98a9" stroke-width="2" stroke-linecap="round"><g><path d="M45 82v12M39 88h12"/><animateTransform attributeName="transform" type="rotate" from="0 45 88" to="360 45 88" dur=".45s" repeatCount="indefinite"/></g><g><path d="M137 82v12M131 88h12"/><animateTransform attributeName="transform" type="rotate" from="0 137 88" to="360 137 88" dur=".45s" repeatCount="indefinite"/></g></g>
+  <path d="M78 70h37" stroke="#e5d3fc" stroke-width="3" stroke-linecap="round"/>
+</svg>

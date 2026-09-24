@@ -1,11 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  ROUND_COUNT, MAX_CONES, ROUND_SECONDS, START_POSITIONS,
-  makeRound, checkAnswer, secondsLeft, advanceRace, bearWon
-} from '../logic.mjs';
+import { ROUND_COUNT, MAX_CONES, START_POSITIONS, makeRound, checkAnswer, advanceRace, spiderWon } from '../logic.mjs';
 
-test('five short rounds with countable values', () => {
+test('five rounds with countable values', () => {
   assert.equal(ROUND_COUNT, 5);
   assert.equal(MAX_CONES, 5);
   for (let i = 0; i < 100; i++) {
@@ -32,25 +29,25 @@ test('only the exact number advances the car', () => {
   assert.equal(checkAnswer(round, 4), false);
 });
 
-test('ten-second countdown stops at zero, including after a delayed tick', () => {
-  const deadline = 20_000;
-  assert.equal(ROUND_SECONDS, 10);
-  assert.equal(secondsLeft(deadline, 10_000), 10);
-  assert.equal(secondsLeft(deadline, 19_001), 1);
-  assert.equal(secondsLeft(deadline, 20_000), 0);
-  assert.equal(secondsLeft(deadline, 27_000), 0);
-});
-
-test('a missed round lets both rivals overtake the bear', () => {
+test('a missed round lets both rivals overtake the central car', () => {
   const afterMiss = advanceRace(START_POSITIONS, false);
-  assert.ok(afterMiss.duck > afterMiss.bear);
-  assert.ok(afterMiss.hedgehog > afterMiss.bear);
-  assert.equal(bearWon(afterMiss), false);
-  assert.deepEqual(START_POSITIONS, { bear: 12, duck: 7, hedgehog: 3 });
+  assert.ok(afterMiss.hulk > afterMiss.spider);
+  assert.ok(afterMiss.loki > afterMiss.spider);
+  assert.equal(spiderWon(afterMiss), false);
+  assert.deepEqual(START_POSITIONS, { spider: 12, hulk: 7, loki: 3 });
 });
 
-test('the bear can catch up by answering later rounds correctly', () => {
+test('the central car can catch up by answering later rounds correctly', () => {
   let positions = advanceRace(START_POSITIONS, false);
   for (let i = 0; i < 4; i++) positions = advanceRace(positions, true);
-  assert.equal(bearWon(positions), true);
+  assert.equal(spiderWon(positions), true);
+});
+
+test('five rounds still produce a meaningful finish order', () => {
+  let positions = { ...START_POSITIONS };
+  for (let i = 0; i < 5; i++) positions = advanceRace(positions, i < 3);
+  assert.equal(spiderWon(positions), false);
+  positions = { ...START_POSITIONS };
+  for (let i = 0; i < 5; i++) positions = advanceRace(positions, i < 4);
+  assert.equal(spiderWon(positions), true);
 });
