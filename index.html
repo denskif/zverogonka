@@ -26,7 +26,7 @@
     </header>
 
     <section class="screen active" id="welcomeScreen" aria-labelledby="welcomeTitle">
-      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><img class="welcome-car welcome-spider" src="./assets/spider-car.svg" alt=""><img class="welcome-car welcome-hulk" src="./assets/hulk-car.svg" alt=""><img class="welcome-car welcome-loki" src="./assets/loki-car.svg" alt=""></div>
+      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><img class="welcome-runner welcome-spider" src="./assets/spider-runner.svg" alt=""><img class="welcome-runner welcome-hulk" src="./assets/hulk-runner.svg" alt=""><img class="welcome-runner welcome-loki" src="./assets/loki-runner.svg" alt=""></div>
       <h1 id="welcomeTitle" data-i18n="welcome">Помоги Человеку-пауку выиграть гонку!</h1>
       <p data-i18n="instructions">Считай конусы и обгоняй Халка и Локи!</p>
       <button class="primary-button" id="startButton" type="button" data-i18n="start">Играть ▶</button>
@@ -39,9 +39,9 @@
         <div class="moving-hill" aria-hidden="true"></div>
         <div class="scenery-strip" aria-hidden="true"><span>🌳</span><span>🌼</span><span>🌲</span><span>⭐</span><span>🌳</span><span>🌼</span></div>
         <div class="race-lanes" aria-hidden="true">
-          <div class="lane"><div class="racer racer-hulk" id="hulkCar"><img src="./assets/hulk-car.svg" alt=""></div></div>
-          <div class="lane"><div class="racer racer-spider" id="spiderCar"><img src="./assets/spider-car.svg" alt=""></div></div>
-          <div class="lane"><div class="racer racer-loki" id="lokiCar"><img src="./assets/loki-car.svg" alt=""></div></div>
+          <div class="lane"><div class="runner runner-hulk" id="hulkRunner"><img src="./assets/hulk-runner.svg" alt=""></div></div>
+          <div class="lane"><div class="runner runner-spider" id="spiderRunner"><img src="./assets/spider-runner.svg" alt=""></div></div>
+          <div class="lane"><div class="runner runner-loki" id="lokiRunner"><img src="./assets/loki-runner.svg" alt=""></div></div>
         </div>
         <div class="moving-finish" aria-hidden="true"></div>
         <div class="race-effect" id="raceEffect" aria-hidden="true"></div>
@@ -53,6 +53,7 @@
     </section>
 
     <section class="screen" id="finishScreen" aria-labelledby="finishTitle">
+      <div class="celebration" aria-hidden="true"><span class="firework firework-one"></span><span class="firework firework-two"></span><span class="firework firework-three"></span><span class="ribbon ribbon-one"></span><span class="ribbon ribbon-two"></span><span class="ribbon ribbon-three"></span><span class="ribbon ribbon-four"></span><span class="ribbon ribbon-five"></span><span class="ribbon ribbon-six"></span></div>
       <div class="finish-art" id="finishArt" aria-hidden="true">🏁 🕷️ 🏆</div>
       <h1 id="finishTitle">Ура, Человек-паук победил!</h1>
       <p id="resultText"></p>

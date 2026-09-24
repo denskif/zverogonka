@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Халк бежит">
+  <style>
+    .leg-a,.arm-b{transform-origin:57px 89px;animation:swing-a .4s ease-in-out infinite alternate}
+    .leg-b,.arm-a{transform-origin:57px 89px;animation:swing-b .4s ease-in-out infinite alternate}
+    .arm-a,.arm-b{transform-origin:62px 67px}
+    @keyframes swing-a{to{transform:rotate(32deg)}}@keyframes swing-b{to{transform:rotate(-32deg)}}
+    @media(prefers-reduced-motion:reduce){.leg-a,.leg-b,.arm-a,.arm-b{animation:none}}
+  </style>
+  <ellipse cx="62" cy="130" rx="38" ry="5" fill="#26394a" opacity=".18"/>
+  <g class="leg-b"><path d="M66 91 79 112 96 120" fill="none" stroke="#63b150" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="m89 120 14 1" stroke="#4f9a44" stroke-width="13" stroke-linecap="round"/></g>
+  <g class="leg-a"><path d="M55 91 42 112 25 121" fill="none" stroke="#63b150" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/><path d="m31 121-13 1" stroke="#4f9a44" stroke-width="13" stroke-linecap="round"/></g>
+  <g class="arm-b"><path d="M48 63 27 70 24 54" fill="none" stroke="#78c761" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="52" r="10" fill="#68b957"/></g>
+  <path d="M42 56q19-10 41 1l4 32q-24 10-49-1z" fill="#70c35d" stroke="#4a9a43" stroke-width="3"/>
+  <path d="M40 83q23 7 45 0l2 18H39z" fill="#6b4b9e" stroke="#493273" stroke-width="3"/>
+  <path d="M60 84v14" stroke="#493273" stroke-width="3"/>
+  <g class="arm-a"><path d="M79 62 99 71 104 54" fill="none" stroke="#78c761" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/><circle cx="104" cy="52" r="10" fill="#68b957"/></g>
+  <path d="M36 23q2-15 21-19 23-3 33 18l-3 29q-9 13-26 13-17 0-25-14z" fill="#80cb66" stroke="#4a9b47" stroke-width="3"/>
+  <path d="M35 30 32 19l13-2 3-11 14 3 11-8 7 10 11 1-4 19-10-5-10 5-10-6-12 7z" fill="#273941"/>
+  <path d="m44 36 14 3m10 0 15-3" stroke="#2d4b3d" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="51" cy="42" r="2.8" fill="#213937"/><circle cx="76" cy="42" r="2.8" fill="#213937"/>
+  <path d="M53 54q10 5 19-1" fill="none" stroke="#437d3d" stroke-width="3" stroke-linecap="round"/>
+</svg>

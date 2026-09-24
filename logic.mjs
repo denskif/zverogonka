@@ -1,5 +1,5 @@
 export const ROUND_COUNT = 5;
-export const MAX_CONES = 5;
+export const MAX_CONES = 10;
 export const START_POSITIONS = Object.freeze({ spider: 12, hulk: 7, loki: 3 });
 
 export function makeRound(previousCount = null, random = Math.random) {

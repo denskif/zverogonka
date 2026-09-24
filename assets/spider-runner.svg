@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" role="img" aria-label="Человек-паук бежит">
+  <style>
+    .leg-a,.arm-b{transform-origin:57px 89px;animation:swing-a .36s ease-in-out infinite alternate}
+    .leg-b,.arm-a{transform-origin:57px 89px;animation:swing-b .36s ease-in-out infinite alternate}
+    .arm-a,.arm-b{transform-origin:62px 64px}
+    @keyframes swing-a{to{transform:rotate(36deg)}}@keyframes swing-b{to{transform:rotate(-36deg)}}
+    @media(prefers-reduced-motion:reduce){.leg-a,.leg-b,.arm-a,.arm-b{animation:none}}
+  </style>
+  <ellipse cx="62" cy="130" rx="35" ry="5" fill="#26394a" opacity=".18"/>
+  <g class="leg-b"><path d="M65 87 76 109 94 119" fill="none" stroke="#294f9c" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="m88 116 13 1" stroke="#c93442" stroke-width="12" stroke-linecap="round"/></g>
+  <g class="leg-a"><path d="M56 87 45 111 28 120" fill="none" stroke="#2854a6" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="m32 119-12 2" stroke="#e94550" stroke-width="12" stroke-linecap="round"/></g>
+  <g class="arm-b"><path d="M54 61 37 75 28 59" fill="none" stroke="#db3c4b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="58" r="7" fill="#e94550"/></g>
+  <path d="M45 58q16-10 32 0l5 32q-18 9-40-1z" fill="#db3c4b" stroke="#a42739" stroke-width="3"/>
+  <path d="M44 77q19 9 36 0l2 14q-21 8-40-1z" fill="#294f9c"/>
+  <path d="M49 63q13 10 26 0M61 57v22M47 72h31" stroke="#26497e" stroke-width="2" opacity=".85"/>
+  <g class="arm-a"><path d="M75 62 91 76 102 58" fill="none" stroke="#e94550" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><circle cx="103" cy="57" r="7" fill="#e94550"/></g>
+  <path d="M38 24q5-19 24-19 23 0 30 24l-2 21Q78 62 62 63 45 62 35 48z" fill="#e8434f" stroke="#a62537" stroke-width="3"/>
+  <path d="M62 7v54M39 31h51M43 19l43 30M83 18 40 49M36 39q27-16 55 0" fill="none" stroke="#274477" stroke-width="2" opacity=".8"/>
+  <path d="M42 32q12-3 19 7-6 10-20 7-4-7 1-14M81 32q-12-3-19 7 6 10 20 7 4-7-1-14" fill="#f5ffff" stroke="#293f68" stroke-width="3"/>
+</svg>

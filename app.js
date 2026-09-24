@@ -8,7 +8,7 @@ const words = {
     title: 'Супергонка', welcome: 'Помоги Человеку-пауку выиграть гонку!',
     instructions: 'Считай конусы и обгоняй Халка и Локи!',
     start: 'Играть ▶', question: 'Сколько конусов на дороге?',
-    correct: 'Верно! Человек-паук вырывается вперёд!',
+    correct: 'Верно! Человек-паук бежит быстрее!',
     wrong: 'Ой! Халк и Локи обогнали!',
     finishWin: 'Ура, Человек-паук победил!', finishLose: 'Гонка закончилась! Попробуем ещё?',
     again: 'Играть ещё ↻', result: 'Правильных ответов: {stars} из {rounds}.',
@@ -19,7 +19,7 @@ const words = {
     title: 'Суперперегони', welcome: 'Допоможи Людині-павуку виграти перегони!',
     instructions: 'Порахуй конуси та обжени Галка й Локі!',
     start: 'Грати ▶', question: 'Скільки конусів на дорозі?',
-    correct: 'Правильно! Людина-павук виривається вперед!',
+    correct: 'Правильно! Людина-павук біжить швидше!',
     wrong: 'Ой! Галк і Локі обігнали!',
     finishWin: 'Ура, Людина-павук перемогла!', finishLose: 'Перегони завершилися! Спробуємо ще?',
     again: 'Грати ще ↻', result: 'Правильних відповідей: {stars} із {rounds}.',
@@ -79,14 +79,14 @@ function playTone(frequency, duration = 0.16) {
 }
 
 function renderPositions() {
-  for (const [animal, id] of [['spider', 'spiderCar'], ['hulk', 'hulkCar'], ['loki', 'lokiCar']]) {
-    $(id).style.left = `min(${Math.min(positions[animal], 92)}%, calc(100% - var(--car-width) - 5px))`;
+  for (const [runner, id] of [['spider', 'spiderRunner'], ['hulk', 'hulkRunner'], ['loki', 'lokiRunner']]) {
+    $(id).style.left = `min(${Math.min(positions[runner], 92)}%, calc(100% - var(--runner-width) - 5px))`;
   }
 }
 
 function clearEffects() {
   $('raceEffect').className = 'race-effect';
-  for (const id of ['spiderCar', 'hulkCar', 'lokiCar']) $(id).classList.remove('boost', 'dust');
+  for (const id of ['spiderRunner', 'hulkRunner', 'lokiRunner']) $(id).classList.remove('boost', 'dust');
 }
 
 function renderRound() {
@@ -101,12 +101,16 @@ function renderRound() {
   renderPositions();
   $('countingArea').replaceChildren();
   $('countingArea').setAttribute('aria-label', t('coneLabel', { count: round.count }));
+  const coneGrid = document.createElement('div');
+  coneGrid.className = 'cone-grid';
+  coneGrid.style.setProperty('--columns', Math.min(round.count, 5));
   for (let i = 0; i < round.count; i++) {
     const cone = document.createElement('span');
     cone.className = 'cone';
     cone.setAttribute('aria-hidden', 'true');
-    $('countingArea').append(cone);
+    coneGrid.append(cone);
   }
+  $('countingArea').append(coneGrid);
   $('answers').replaceChildren();
   for (const number of round.choices) {
     const button = document.createElement('button');
@@ -139,10 +143,10 @@ function finishRound(outcome, button = null) {
   renderPositions();
   clearEffects();
   $('raceEffect').classList.add(correct ? 'boost' : 'overtake');
-  if (correct) $('spiderCar').classList.add('boost');
+  if (correct) $('spiderRunner').classList.add('boost');
   else {
-    $('hulkCar').classList.add('dust');
-    $('lokiCar').classList.add('dust');
+    $('hulkRunner').classList.add('dust');
+    $('lokiRunner').classList.add('dust');
   }
   playTone(correct ? 660 : 260);
   advanceTimer = setTimeout(() => {
@@ -159,6 +163,7 @@ function finishRound(outcome, button = null) {
 
 function renderResult() {
   const won = spiderWon(positions);
+  $('finishScreen').classList.toggle('won', won);
   $('finishTitle').textContent = t(won ? 'finishWin' : 'finishLose');
   $('finishArt').textContent = won ? '🏁 🕷️ 🏆' : '🏁 💚 👑 🕷️';
   $('resultText').textContent = t('result', { stars, rounds: ROUND_COUNT });

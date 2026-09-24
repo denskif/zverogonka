@@ -20,9 +20,6 @@ p{font-size:clamp(19px,2.8vw,25px);line-height:1.35}
 .welcome-art:after{content:"";position:absolute;bottom:20px;left:0;right:0;height:46px;background:#6b7379;border-top:7px solid #fff0b5;border-bottom:7px solid #fff0b5}
 .sun{position:absolute;top:12px;right:50px;font-size:55px}
 .cloud{position:absolute;top:30px;left:70px;font-size:50px}
-.hero-car{position:absolute;bottom:17px;left:20%;z-index:2;font-size:clamp(70px,10vw,105px)}
-.hero-bear{position:absolute;bottom:82px;left:24%;z-index:3;font-size:clamp(42px,6vw,60px)}
-.hero-cones{position:absolute;bottom:75px;right:8%;font-size:clamp(25px,4vw,39px)}
 #welcomeScreen h1{margin-top:10px}
 #welcomeScreen p{margin:15px 0 28px;max-width:650px}
 #finishScreen{justify-content:center;min-height:70vh;gap:22px}
@@ -31,15 +28,6 @@ p{font-size:clamp(19px,2.8vw,25px);line-height:1.35}
 .progress-track{flex:1;height:19px;border-radius:99px;background:#c5e8db;overflow:hidden}
 .progress-track div{height:100%;width:0;background:#ffbf4f;border-radius:inherit;transition:width .5s}
 .race-scene{position:relative;width:100%;height:clamp(145px,23vh,220px);border-radius:28px;overflow:hidden;background:linear-gradient(#a8e9f4 0 64%,#80d99a 64%)}
-.sky-decor{position:absolute;top:5px;right:8%;font-size:35px}
-.sky-decor span{margin-left:110px}
-.hills{position:absolute;bottom:45px;left:-5%;width:110%;height:55px;background:#69c38a;border-radius:50% 50% 0 0}
-.road{position:absolute;bottom:0;width:100%;height:74px;background:#697279;border-top:7px solid #f8e39c}
-.road-stripes{position:absolute;top:31px;width:100%;height:5px;background:repeating-linear-gradient(90deg,#fff9dc 0 45px,transparent 45px 85px)}
-.finish-line{position:absolute;right:4%;top:-42px;height:115px;width:17px;background:repeating-conic-gradient(#fff 0 25%,#394349 0 50%) 50%/18px 18px;z-index:2}
-.race-car{position:absolute;left:7%;bottom:14px;z-index:3;transition:left .8s ease;font-size:58px;line-height:1}
-.race-car .driver{position:absolute;font-size:36px;left:20px;top:-23px}
-.race-car .car-body{position:relative}
 .race-scene+h2{margin:18px 0 14px}
 .counting-area{width:100%;max-width:750px;min-height:clamp(100px,17vh,150px);display:flex;align-items:center;justify-content:center;gap:clamp(4px,2vw,22px);background:#fffefa;border:4px solid #f8ddac;border-radius:28px;padding:8px 16px}
 .cone{font-size:clamp(46px,8vw,75px);line-height:1;animation:pop .25s backwards}
@@ -70,7 +58,6 @@ to{transform:scale(1);opacity:1}
 .brand{font-size:20px}
 .brand span:first-child{font-size:26px}
 .small-button{font-size:15px;min-width:46px;padding:7px}
-.hero-cones{right:2%;font-size:25px}
 .counting-area{padding:6px}
 .cone{font-size:clamp(38px,10vw,53px)}
 .finish-art{letter-spacing:0}
