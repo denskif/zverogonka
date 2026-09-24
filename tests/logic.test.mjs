@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ROUND_COUNT, MAX_CONES, makeRound, checkAnswer } from '../logic.mjs';
+import {
+  ROUND_COUNT, MAX_CONES, ROUND_SECONDS, START_POSITIONS,
+  makeRound, checkAnswer, secondsLeft, advanceRace, bearWon
+} from '../logic.mjs';
 
 test('five short rounds with countable values', () => {
   assert.equal(ROUND_COUNT, 5);
@@ -27,4 +30,27 @@ test('only the exact number advances the car', () => {
   assert.equal(checkAnswer(round, 3), true);
   assert.equal(checkAnswer(round, 2), false);
   assert.equal(checkAnswer(round, 4), false);
+});
+
+test('ten-second countdown stops at zero, including after a delayed tick', () => {
+  const deadline = 20_000;
+  assert.equal(ROUND_SECONDS, 10);
+  assert.equal(secondsLeft(deadline, 10_000), 10);
+  assert.equal(secondsLeft(deadline, 19_001), 1);
+  assert.equal(secondsLeft(deadline, 20_000), 0);
+  assert.equal(secondsLeft(deadline, 27_000), 0);
+});
+
+test('a missed round lets both rivals overtake the bear', () => {
+  const afterMiss = advanceRace(START_POSITIONS, false);
+  assert.ok(afterMiss.duck > afterMiss.bear);
+  assert.ok(afterMiss.hedgehog > afterMiss.bear);
+  assert.equal(bearWon(afterMiss), false);
+  assert.deepEqual(START_POSITIONS, { bear: 12, duck: 7, hedgehog: 3 });
+});
+
+test('the bear can catch up by answering later rounds correctly', () => {
+  let positions = advanceRace(START_POSITIONS, false);
+  for (let i = 0; i < 4; i++) positions = advanceRace(positions, true);
+  assert.equal(bearWon(positions), true);
 });

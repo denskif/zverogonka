@@ -1,8 +1,33 @@
-import { ROUND_COUNT, makeRound, checkAnswer } from './logic.mjs';
+import {
+  ROUND_COUNT, ROUND_SECONDS, START_POSITIONS,
+  makeRound, checkAnswer, secondsLeft, advanceRace, bearWon
+} from './logic.mjs';
 
 const words = {
-  ru: { title: 'Зверогонка', welcome: 'Помоги мишке выиграть гонку!', instructions: 'Считай дорожные конусы и выбирай правильную цифру.', start: 'Играть ▶', question: 'Сколько конусов на дороге?', correct: 'Верно! Машина едет быстрее!', tryAgain: 'Попробуй ещё раз', finish: 'Ура, мишка на финише!', again: 'Играть ещё ↻', result: 'Ты помог мишке и собрал {stars} звёзд!', coneLabel: 'Дорожных конусов: {count}', choose: 'Выбери цифру', sound: 'Звук' },
-  uk: { title: 'Звірогонка', welcome: 'Допоможи ведмедику виграти перегони!', instructions: 'Порахуй дорожні конуси та обери правильну цифру.', start: 'Грати ▶', question: 'Скільки конусів на дорозі?', correct: 'Правильно! Машина їде швидше!', tryAgain: 'Спробуй ще раз', finish: 'Ура, ведмедик на фініші!', again: 'Грати ще ↻', result: 'Ти допоміг ведмедику та зібрав {stars} зірок!', coneLabel: 'Дорожніх конусів: {count}', choose: 'Обери цифру', sound: 'Звук' }
+  ru: {
+    title: 'Зверогонка', welcome: 'Помоги мишке выиграть гонку!',
+    instructions: 'Считай конусы и помоги мишке обогнать утку и ёжика!',
+    start: 'Играть ▶', question: 'Сколько конусов на дороге?', seconds: 'с',
+    correct: 'Верно! Мишка вырывается вперёд!',
+    wrong: 'Ой! Утка и ёжик обогнали мишку!',
+    timeout: 'Время вышло! Соперники обгоняют!',
+    finishWin: 'Ура, мишка победил!', finishLose: 'Гонка закончилась! Попробуем ещё?',
+    again: 'Играть ещё ↻', result: 'Правильных ответов: {stars} из {rounds}.',
+    coneLabel: 'Дорожных конусов: {count}', choose: 'Выбери цифру', sound: 'Звук',
+    timeLeft: 'Осталось {seconds} секунд', raceLabel: 'Гонка: мишка, утка и ёжик'
+  },
+  uk: {
+    title: 'Звірогонка', welcome: 'Допоможи ведмедику виграти перегони!',
+    instructions: 'Порахуй конуси та допоможи ведмедику обігнати качку й їжачка!',
+    start: 'Грати ▶', question: 'Скільки конусів на дорозі?', seconds: 'с',
+    correct: 'Правильно! Ведмедик виривається вперед!',
+    wrong: 'Ой! Качка та їжачок обігнали ведмедика!',
+    timeout: 'Час вийшов! Суперники обганяють!',
+    finishWin: 'Ура, ведмедик переміг!', finishLose: 'Перегони завершилися! Спробуємо ще?',
+    again: 'Грати ще ↻', result: 'Правильних відповідей: {stars} із {rounds}.',
+    coneLabel: 'Дорожніх конусів: {count}', choose: 'Обери цифру', sound: 'Звук',
+    timeLeft: 'Залишилося {seconds} секунд', raceLabel: 'Перегони: ведмедик, качка та їжачок'
+  }
 };
 
 const $ = id => document.getElementById(id);
@@ -12,7 +37,11 @@ let soundOn = localStorage.getItem('animal-race-sound') !== 'off';
 let roundIndex = 0;
 let stars = 0;
 let round = null;
-let answered = false;
+let positions = { ...START_POSITIONS };
+let resolved = false;
+let lastOutcome = null;
+let deadline = 0;
+let ticker = null;
 let advanceTimer = null;
 
 function t(key, values = {}) {
@@ -30,8 +59,11 @@ function renderLanguage() {
   $('languageButton').textContent = language === 'ru' ? 'УКР' : 'РУС';
   $('soundButton').setAttribute('aria-label', t('sound'));
   $('answers').setAttribute('aria-label', t('choose'));
+  $('race-scene')?.setAttribute('aria-label', t('raceLabel'));
   if (round) $('countingArea').setAttribute('aria-label', t('coneLabel', { count: round.count }));
+  if (lastOutcome) $('feedback').textContent = t(lastOutcome);
   if ($('finishScreen').classList.contains('active')) renderResult();
+  if ($('playScreen').classList.contains('active') && !resolved) updateTimer();
 }
 
 function playTone(frequency, duration = 0.16) {
@@ -51,14 +83,33 @@ function playTone(frequency, duration = 0.16) {
   } catch { /* Sound is optional. */ }
 }
 
+function renderPositions() {
+  for (const [animal, id] of [['bear', 'bearCar'], ['duck', 'duckCar'], ['hedgehog', 'hedgehogCar']]) {
+    $(id).style.left = `${Math.min(positions[animal], 89)}%`;
+  }
+}
+
+function updateTimer() {
+  if (resolved) return;
+  const now = Date.now();
+  const seconds = secondsLeft(deadline, now);
+  $('timerText').textContent = seconds;
+  $('timerRow').setAttribute('aria-label', t('timeLeft', { seconds }));
+  $('timerFill').style.width = `${Math.max(0, (deadline - now) / (ROUND_SECONDS * 1000) * 100)}%`;
+  $('timerRow').classList.toggle('danger', seconds <= 3);
+  if (now >= deadline) finishRound('timeout');
+}
+
 function renderRound() {
-  answered = false;
+  resolved = false;
+  lastOutcome = null;
+  $('timerRow').style.visibility = 'visible';
   $('feedback').textContent = '';
   $('feedback').className = 'feedback';
   $('roundLabel').textContent = `${roundIndex + 1} / ${ROUND_COUNT}`;
   $('starsLabel').textContent = `⭐ ${stars}`;
   $('progressFill').style.width = `${roundIndex / ROUND_COUNT * 100}%`;
-  $('raceCar').style.left = `${7 + roundIndex * 15}%`;
+  renderPositions();
   $('countingArea').replaceChildren();
   $('countingArea').setAttribute('aria-label', t('coneLabel', { count: round.count }));
   for (let i = 0; i < round.count; i++) {
@@ -76,28 +127,35 @@ function renderRound() {
     button.addEventListener('click', () => answer(number, button));
     $('answers').append(button);
   }
+  deadline = Date.now() + ROUND_SECONDS * 1000;
+  clearInterval(ticker);
+  updateTimer();
+  ticker = setInterval(updateTimer, 100);
 }
 
 function answer(number, button) {
-  if (answered) return;
-  if (!checkAnswer(round, number)) {
-    button.classList.add('wrong');
-    button.disabled = true;
-    $('feedback').textContent = t('tryAgain');
-    $('feedback').className = 'feedback retry';
-    playTone(260);
-    return;
-  }
-  answered = true;
-  stars++;
-  button.classList.add('right');
+  if (resolved) return;
+  if (Date.now() >= deadline) { finishRound('timeout'); return; }
+  finishRound(checkAnswer(round, number) ? 'correct' : 'wrong', button);
+}
+
+function finishRound(outcome, button = null) {
+  if (resolved) return;
+  resolved = true;
+  clearInterval(ticker);
+  lastOutcome = outcome;
+  const correct = outcome === 'correct';
+  if (correct) stars++;
+  if (button) button.classList.add(correct ? 'right' : 'wrong');
   $('answers').querySelectorAll('button').forEach(choice => { choice.disabled = true; });
-  $('feedback').textContent = t('correct');
-  $('feedback').className = 'feedback success';
+  $('feedback').textContent = t(outcome);
+  $('feedback').className = `feedback ${correct ? 'success' : 'retry'}`;
+  $('timerRow').style.visibility = 'hidden';
   $('starsLabel').textContent = `⭐ ${stars}`;
-  $('raceCar').style.left = `${7 + (roundIndex + 1) * 15}%`;
   $('progressFill').style.width = `${(roundIndex + 1) / ROUND_COUNT * 100}%`;
-  playTone(660);
+  positions = advanceRace(positions, correct);
+  renderPositions();
+  playTone(correct ? 660 : 260);
   advanceTimer = setTimeout(() => {
     roundIndex++;
     if (roundIndex === ROUND_COUNT) {
@@ -107,17 +165,22 @@ function answer(number, button) {
       round = makeRound(round.count);
       renderRound();
     }
-  }, 1150);
+  }, 1350);
 }
 
 function renderResult() {
-  $('resultText').textContent = t('result', { stars });
+  const won = bearWon(positions);
+  $('finishTitle').textContent = t(won ? 'finishWin' : 'finishLose');
+  $('finishArt').textContent = won ? '🏁 🐻 🏆' : '🏁 🦆 🦔 🐻';
+  $('resultText').textContent = t('result', { stars, rounds: ROUND_COUNT });
 }
 
 function startGame() {
+  clearInterval(ticker);
   clearTimeout(advanceTimer);
   roundIndex = 0;
   stars = 0;
+  positions = { ...START_POSITIONS };
   round = makeRound();
   showScreen('playScreen');
   renderRound();
@@ -135,6 +198,9 @@ $('soundButton').addEventListener('click', () => {
   localStorage.setItem('animal-race-sound', soundOn ? 'on' : 'off');
   $('soundButton').textContent = soundOn ? '🔊' : '🔇';
   $('soundButton').setAttribute('aria-pressed', String(soundOn));
+});
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && $('playScreen').classList.contains('active')) updateTimer();
 });
 $('soundButton').textContent = soundOn ? '🔊' : '🔇';
 $('soundButton').setAttribute('aria-pressed', String(soundOn));

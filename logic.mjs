@@ -1,5 +1,7 @@
 export const ROUND_COUNT = 5;
 export const MAX_CONES = 5;
+export const ROUND_SECONDS = 10;
+export const START_POSITIONS = Object.freeze({ bear: 12, duck: 7, hedgehog: 3 });
 
 export function makeRound(previousCount = null, random = Math.random) {
   const counts = Array.from({ length: MAX_CONES }, (_, i) => i + 1).filter(n => n !== previousCount);
@@ -13,4 +15,20 @@ export function makeRound(previousCount = null, random = Math.random) {
 
 export function checkAnswer(round, answer) {
   return Number(answer) === round.count;
+}
+
+export function secondsLeft(deadline, now) {
+  return Math.max(0, Math.ceil((deadline - now) / 1000));
+}
+
+export function advanceRace(positions, correct) {
+  return {
+    bear: positions.bear + (correct ? 16 : 8),
+    duck: positions.duck + (correct ? 10 : 20),
+    hedgehog: positions.hedgehog + (correct ? 10 : 20)
+  };
+}
+
+export function bearWon(positions) {
+  return positions.bear > positions.duck && positions.bear > positions.hedgehog;
 }
