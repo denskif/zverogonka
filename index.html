@@ -6,30 +6,33 @@
   <meta name="theme-color" content="#75d5c5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Супергонка">
-  <meta name="description" content="Весёлая гонка на счёт для детей от четырёх лет">
+  <meta name="apple-mobile-web-app-title" content="Играй и учись">
+  <meta name="description" content="Гонки на счёт и игра для изучения болгарских слов">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./assets/cones.css">
   <link rel="stylesheet" href="./assets/race.css">
-  <title>Супергонка</title>
+  <link rel="stylesheet" href="./assets/language.css">
+  <title>Играй и учись</title>
 </head>
 <body>
   <main class="game" id="game">
     <header class="topbar">
-      <div class="brand"><span aria-hidden="true">🕷️</span><span data-i18n="title">Супергонка</span></div>
+      <div class="brand"><span aria-hidden="true">🕷️</span><span data-i18n="title">Играй и учись</span></div>
       <div class="top-actions">
+        <button class="small-button home-button" id="homeButton" type="button" aria-label="Меню">⌂</button>
         <button class="small-button" id="languageButton" type="button" aria-label="Change language">УКР</button>
         <button class="small-button" id="soundButton" type="button" aria-label="Звук" aria-pressed="true">🔊</button>
       </div>
     </header>
 
-    <section class="screen active" id="welcomeScreen" aria-labelledby="welcomeTitle">
-      <div class="welcome-art" aria-hidden="true"><span class="sun">☀️</span><span class="cloud">☁️</span><img class="welcome-runner welcome-spider" src="./assets/spider-runner.svg" alt=""><img class="welcome-runner welcome-hulk" src="./assets/hulk-runner.svg" alt=""><img class="welcome-runner welcome-loki" src="./assets/loki-runner.svg" alt=""></div>
-      <h1 id="welcomeTitle" data-i18n="welcome">Помоги Человеку-пауку выиграть гонку!</h1>
-      <p data-i18n="instructions">Считай конусы и обгоняй Халка и Локи!</p>
-      <button class="primary-button" id="startButton" type="button" data-i18n="start">Играть ▶</button>
+    <section class="screen active" id="menuScreen" aria-labelledby="menuTitle">
+      <h1 id="menuTitle" data-i18n="menuTitle">Во что сыграем?</h1>
+      <div class="mode-grid">
+        <button class="mode-card mode-race" id="raceModeButton" type="button"><span class="mode-art race-mode-art" aria-hidden="true"><img src="./assets/spider-runner.svg" alt=""><img src="./assets/hulk-runner.svg" alt=""><img src="./assets/loki-runner.svg" alt=""></span><span class="mode-name" data-i18n="raceMode">Гонки</span><span class="mode-description" data-i18n="raceModeHint">Считай конусы</span></button>
+        <button class="mode-card mode-learn" id="learnModeButton" type="button"><span class="mode-art learn-mode-art" aria-hidden="true"><img src="./assets/learn-menu.svg" alt=""></span><span class="mode-name" data-i18n="learnMode">Учить язык</span><span class="mode-description" data-i18n="learnModeHint">Слушай болгарские слова</span></button>
+      </div>
     </section>
 
     <section class="screen" id="playScreen" aria-labelledby="questionTitle">
@@ -52,12 +55,30 @@
       <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
     </section>
 
-    <section class="screen" id="finishScreen" aria-labelledby="finishTitle">
+    <section class="screen finish-screen" id="finishScreen" aria-labelledby="finishTitle">
       <div class="celebration" aria-hidden="true"><span class="firework firework-one"></span><span class="firework firework-two"></span><span class="firework firework-three"></span><span class="ribbon ribbon-one"></span><span class="ribbon ribbon-two"></span><span class="ribbon ribbon-three"></span><span class="ribbon ribbon-four"></span><span class="ribbon ribbon-five"></span><span class="ribbon ribbon-six"></span></div>
       <div class="finish-art" id="finishArt" aria-hidden="true">🏁 🕷️ 🏆</div>
       <h1 id="finishTitle">Ура, Человек-паук победил!</h1>
       <p id="resultText"></p>
       <button class="primary-button" id="againButton" type="button" data-i18n="again">Играть ещё ↻</button>
+    </section>
+
+    <section class="screen" id="learnScreen" aria-labelledby="learnTitle">
+      <div class="progress-row"><span id="learnRoundLabel">1 / 5</span><div class="progress-track" aria-hidden="true"><div id="learnProgressFill"></div></div><span id="learnStarsLabel" aria-label="Правильные ответы">⭐ 0</span></div>
+      <h1 id="learnTitle" data-i18n="learnTitle">Слушай и выбирай!</h1>
+      <p class="learn-instruction" data-i18n="learnInstruction">Какую картинку назвали по-болгарски?</p>
+      <button class="replay-button" id="replayButton" type="button" data-i18n="replay">🔊 Слушать ещё</button>
+      <div class="picture-grid" id="pictureGrid" role="group" aria-label="Выбери картинку"></div>
+      <p class="feedback" id="learnFeedback" role="status" aria-live="polite"></p>
+      <p class="speech-note" id="speechNote" role="status" hidden></p>
+    </section>
+
+    <section class="screen finish-screen" id="learnFinishScreen" aria-labelledby="learnFinishTitle">
+      <div class="celebration" aria-hidden="true"><span class="firework firework-one"></span><span class="firework firework-two"></span><span class="firework firework-three"></span><span class="ribbon ribbon-one"></span><span class="ribbon ribbon-two"></span><span class="ribbon ribbon-three"></span><span class="ribbon ribbon-four"></span><span class="ribbon ribbon-five"></span><span class="ribbon ribbon-six"></span></div>
+      <div class="finish-art" id="learnFinishArt" aria-hidden="true">🎧 🏆 ✨</div>
+      <h1 id="learnFinishTitle">Отлично! Ты выиграл!</h1>
+      <p id="learnResultText"></p>
+      <button class="primary-button" id="learnAgainButton" type="button" data-i18n="again">Играть ещё ↻</button>
     </section>
   </main>
   <script type="module" src="./app.js"></script>

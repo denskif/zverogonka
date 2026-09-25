@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 250" role="img" aria-label="Книга, яблоко и звук">
+  <ellipse cx="210" cy="221" rx="162" ry="14" fill="#9b7058" opacity=".15"/>
+  <path d="M70 77q71-25 139 18v105q-65-36-139-16z" fill="#fffefa" stroke="#c98b73" stroke-width="7"/>
+  <path d="M210 95q70-42 140-18v107q-76-20-140 16z" fill="#fffefa" stroke="#c98b73" stroke-width="7"/>
+  <path d="M210 96v105" stroke="#b77e67" stroke-width="7"/>
+  <path d="M90 108q46-8 87 15M90 134q47-5 87 16M236 120q43-24 90-21M236 149q43-19 90-16" fill="none" stroke="#e5c8a6" stroke-width="6" stroke-linecap="round"/>
+  <path d="M60 179q81-13 150 27 72-40 150-27" fill="none" stroke="#e49b72" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="113" cy="68" r="34" fill="#e95357"/>
+  <path d="M113 35q8-20 23-15" fill="none" stroke="#597c37" stroke-width="7" stroke-linecap="round"/>
+  <path d="M122 30q13-17 28-6-8 13-28 6" fill="#6bbb70"/>
+  <path d="m277 38 27 18 25-18v73l-25-18-27 18z" fill="#6ba7d4"/>
+  <path d="M338 55q23 21 0 43M354 41q38 35 0 71" fill="none" stroke="#6ba7d4" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="74" cy="42" r="8" fill="#f4c653"/><circle cx="355" cy="163" r="8" fill="#9c8fe0"/><path d="m190 28 8 14 15 4-15 5-8 15-6-15-15-5 15-4z" fill="#f4c653"/>
+</svg>
