@@ -3,7 +3,10 @@ import assert from 'node:assert/strict';
 import { LANGUAGE_ROUNDS, LANGUAGE_WIN_SCORE, VOCABULARY, makeLanguageSession, languageWon } from '../language.mjs';
 
 test('five different Bulgarian words are used in each game', () => {
-  assert.equal(VOCABULARY.length, 28);
+  assert.equal(VOCABULARY.length, 100);
+  for (const field of ['id', 'bg', 'icon']) {
+    assert.equal(new Set(VOCABULARY.map(word => word[field])).size, 100, `${field} must be unique`);
+  }
   assert.equal(LANGUAGE_ROUNDS, 5);
   for (const random of [() => 0, () => 0.5, () => 0.999]) {
     const session = makeLanguageSession(random);
@@ -13,6 +16,7 @@ test('five different Bulgarian words are used in each game', () => {
       assert.ok(round.target.bg.length > 0);
       assert.equal(round.choices.length, 4);
       assert.equal(new Set(round.choices.map(choice => choice.id)).size, 4);
+      assert.equal(new Set(round.choices.map(choice => choice.icon)).size, 4);
       assert.ok(round.choices.some(choice => choice.id === round.target.id));
       assert.equal(new Set(round.choices.map(choice => choice.category)).size, 4);
     }
