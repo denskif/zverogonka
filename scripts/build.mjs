@@ -6,7 +6,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-for (const item of ['index.html', 'style.css', 'app.js', 'logic.mjs', 'language.mjs', 'verbs.mjs', 'manifest.webmanifest', 'assets']) {
+for (const item of ['index.html', 'style.css', 'app.js', 'logic.mjs', 'language.mjs', 'verbs.mjs', 'test-words.mjs', 'manifest.webmanifest', 'assets']) {
   await cp(path.join(root, item), path.join(dist, item), { recursive: true });
 }
 console.log('Built dist/');

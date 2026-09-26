@@ -4,6 +4,7 @@ import {
 } from './logic.mjs';
 import { LANGUAGE_ROUNDS, VOCABULARY, makeLanguageSession, languageWon } from './language.mjs';
 import { VERBS } from './verbs.mjs';
+import { TEST_VOCABULARY } from './test-words.mjs';
 
 const words = {
   ru: {
@@ -11,6 +12,7 @@ const words = {
     raceMode: 'Гонки', raceModeHint: 'Считай конусы', learnMode: 'Учить слова', learnModeHint: 'Слушай болгарские слова',
     learnCategoryTitle: 'Какие слова учим?', nouns: 'Существительные', nounsHint: 'Животные, еда и предметы',
     verbs: 'Глаголы', verbsHint: 'Действия и движения',
+    testMode: 'Тест', testModeHint: '12 пробных рисунков',
     question: 'Сколько конусов на дороге?',
     correct: 'Верно! Человек-паук бежит быстрее!',
     wrong: 'Ой! Халк и Локи обогнали!',
@@ -29,6 +31,7 @@ const words = {
     raceMode: 'Перегони', raceModeHint: 'Порахуй конуси', learnMode: 'Вчити слова', learnModeHint: 'Слухай болгарські слова',
     learnCategoryTitle: 'Які слова вчимо?', nouns: 'Іменники', nounsHint: 'Тварини, їжа та предмети',
     verbs: 'Дієслова', verbsHint: 'Дії та рухи',
+    testMode: 'Тест', testModeHint: '12 пробних малюнків',
     question: 'Скільки конусів на дорозі?',
     correct: 'Правильно! Людина-павук біжить швидше!',
     wrong: 'Ой! Галк і Локі обігнали!',
@@ -273,11 +276,17 @@ function renderLanguageRound() {
     button.dataset.word = word.id;
     button.style.setProperty('--picture-bg', colors[index]);
     button.setAttribute('aria-label', word[language]);
-    const picture = document.createElement('span');
-    picture.className = 'picture-illustration';
+    const picture = document.createElement(word.image ? 'img' : 'span');
+    picture.className = word.image ? 'scene-illustration' : 'picture-illustration';
     if (activeWordType === 'verbs') picture.classList.add('verb-illustration');
     picture.setAttribute('aria-hidden', 'true');
-    picture.textContent = word.icon;
+    if (word.image) {
+      picture.src = word.image;
+      picture.alt = '';
+      button.classList.add('scene-picture-button');
+    } else {
+      picture.textContent = word.icon;
+    }
     button.append(picture);
     button.addEventListener('click', () => answerLanguage(word.id, button));
     $('pictureGrid').append(button);
@@ -328,7 +337,7 @@ function startLanguageGame(wordType = activeWordType) {
   clearTimeout(languageAdvanceTimer);
   stopLanguageSpeech();
   activeWordType = wordType;
-  activeVocabulary = wordType === 'verbs' ? VERBS : VOCABULARY;
+  activeVocabulary = wordType === 'verbs' ? VERBS : wordType === 'test' ? TEST_VOCABULARY : VOCABULARY;
   languageSession = makeLanguageSession(activeVocabulary);
   languageRoundIndex = 0;
   languageScore = 0;
@@ -348,6 +357,7 @@ $('raceModeButton').addEventListener('click', startGame);
 $('learnModeButton').addEventListener('click', () => showScreen('learnCategoryScreen'));
 $('nounsButton').addEventListener('click', () => startLanguageGame('nouns'));
 $('verbsButton').addEventListener('click', () => startLanguageGame('verbs'));
+$('testButton').addEventListener('click', () => startLanguageGame('test'));
 $('homeButton').addEventListener('click', goMenu);
 $('againButton').addEventListener('click', startGame);
 $('learnAgainButton').addEventListener('click', () => startLanguageGame());

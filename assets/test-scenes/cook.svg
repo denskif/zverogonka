@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200" role="img">
+  <defs><linearGradient id="bg-cook" x2="0" y2="1"><stop stop-color="#fff0da"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs>
+  <rect width="280" height="200" rx="20" fill="url(#bg-cook)"/>
+  <ellipse cx="140" cy="177" rx="116" ry="10" fill="#b9d8d0" opacity=".55"/>
+  
+    <rect x="148" y="134" width="101" height="18" rx="7" fill="#6b8ea2"/><path d="M164 152v28m67-28v28" stroke="#61768b" stroke-width="9"/>
+    <path d="M161 127q32-15 61 0l-6 17h-49z" fill="#f08f69" stroke="#34455d" stroke-width="3"/>
+    <path d="M192 126q-9-14-5-23m19 20q8-15 4-24" fill="none" stroke="#b6d5d5" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80 102q26-11 52 0l10 63H70z" fill="#508cdb" stroke="#34455d" stroke-width="3"/>
+    <path d="M123 112l35 24" fill="none" stroke="#f5bd95" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/> <path d="M155 118l19 19" stroke="#c38b55" stroke-width="5" stroke-linecap="round"/>
+    <path d="M75 44q-5-20 14-22 8-16 21-4 18-10 23 6 19 5 12 23z" fill="#fff" stroke="#34455d" stroke-width="3"/>
+    <g stroke="#34455d" stroke-width="2.5" stroke-linecap="round">
+  <circle cx="105" cy="66" r="25" fill="#f5bd95"/>
+  <path d="M82 59 Q83 35 109 39 Q130 41 127 60 Q114 49 104 51 Q95 57 82 59" fill="#5a4051"/>
+  <circle cx="96" cy="68" r="2.5" fill="#34455d" stroke="none"/><circle cx="115" cy="68" r="2.5" fill="#34455d" stroke="none"/>
+  <path d="M98 79q7 8 14 0" fill="none"/>
+</g>
+  
+</svg>
