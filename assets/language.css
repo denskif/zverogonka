@@ -1,4 +1,4 @@
-#game[data-screen="menuScreen"] .home-button,#game[data-screen="learnScreen"] #soundButton,#game[data-screen="learnFinishScreen"] #soundButton{display:none}
+#game[data-screen="menuScreen"] .home-button,#game[data-screen="learnCategoryScreen"] #soundButton,#game[data-screen="learnScreen"] #soundButton,#game[data-screen="learnFinishScreen"] #soundButton{display:none}
 .home-button{font-size:30px;line-height:1}
 #menuScreen{padding-top:clamp(20px,5vh,55px)}
 #menuScreen h1{margin-bottom:clamp(25px,5vh,48px)}
@@ -16,6 +16,12 @@
 .learn-mode-art img{display:block;width:100%;height:100%;object-fit:contain}
 .mode-name{font-size:clamp(27px,4vw,39px);font-weight:900;line-height:1.1}
 .mode-description{font-size:clamp(16px,2.5vw,21px);font-weight:650}
+#learnCategoryScreen{justify-content:center;gap:clamp(24px,5vh,45px)}
+.word-kind-grid{max-width:850px}
+.word-kind-card{min-height:clamp(255px,42vh,370px);justify-content:center}
+.word-kind-nouns{background:linear-gradient(#e4f8ff,#bdeedc)}
+.word-kind-verbs{background:linear-gradient(#fff2d6,#ffd4a8)}
+.word-kind-art{display:flex;align-items:center;justify-content:center;width:100%;min-height:clamp(130px,22vh,200px);font-family:"Apple Color Emoji","Segoe UI Emoji",system-ui,sans-serif;font-size:clamp(49px,7vw,76px);line-height:1.25;white-space:normal;filter:drop-shadow(0 7px 5px #0002)}
 #learnScreen{width:100%}
 #learnScreen h1{margin:clamp(6px,2vh,20px) 0 6px}
 .learn-instruction{max-width:620px}
@@ -25,6 +31,7 @@
 .picture-button{display:flex;align-items:center;justify-content:center;min-width:0;height:clamp(130px,22vh,205px);border:5px solid #fff;border-radius:29px;background:var(--picture-bg,#e7f3fa);box-shadow:0 7px 0 #bbd9d1;transition:transform .2s,background .2s}
 .picture-button:active{transform:translateY(4px);box-shadow:0 3px 0 #bbd9d1}
 .picture-illustration{font-family:"Apple Color Emoji","Segoe UI Emoji",system-ui,sans-serif;font-size:clamp(70px,13vw,125px);line-height:1;filter:drop-shadow(0 6px 4px #0002);user-select:none}
+.picture-illustration.verb-illustration{max-width:100%;padding:0 6px;font-size:clamp(39px,7vw,65px);line-height:1.15;text-align:center;overflow-wrap:normal}
 .picture-button.right{background:#b3ebbd;border-color:#71ca88}
 .picture-button.wrong{background:#f7d0cb;border-color:#e89a91}
 .picture-button:disabled{cursor:default}
@@ -34,6 +41,6 @@
 #learnFinishScreen{position:relative;isolation:isolate}
 #learnFinishScreen>*:not(.celebration){position:relative;z-index:2}
 #learnFinishScreen.won .celebration{display:block}
-@media(max-width:540px){.mode-grid{grid-template-columns:1fr;max-width:420px}.mode-art{height:155px}.race-mode-art img{width:76px}.mode-card{padding:11px 12px 17px}.picture-button{height:clamp(125px,20vh,175px)}.picture-illustration{font-size:clamp(67px,19vw,95px)}}
+@media(max-width:540px){.mode-grid{grid-template-columns:1fr;max-width:420px}.mode-art{height:155px}.race-mode-art img{width:76px}.mode-card{padding:11px 12px 17px}.word-kind-card{min-height:145px}.word-kind-art{min-height:65px;font-size:45px}.picture-button{height:clamp(125px,20vh,175px)}.picture-illustration{font-size:clamp(67px,19vw,95px)}.picture-illustration.verb-illustration{font-size:clamp(36px,10vw,50px)}}
 @media(max-height:700px){#menuScreen{padding-top:14px}.mode-art{height:150px}.picture-button{height:127px}.replay-button{margin:10px 0 13px}}
 @media(prefers-reduced-motion:reduce){.race-mode-art img{animation:none}.mode-card,.picture-button{transition:none}}

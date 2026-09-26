@@ -114,13 +114,13 @@ export function shuffle(items, random = Math.random) {
   return copy;
 }
 
-export function makeLanguageSession(random = Math.random) {
-  const targets = shuffle(VOCABULARY, random).slice(0, LANGUAGE_ROUNDS);
-  const categories = [...new Set(VOCABULARY.map(word => word.category))];
+export function makeLanguageSession(vocabulary = VOCABULARY, random = Math.random) {
+  const targets = shuffle(vocabulary, random).slice(0, LANGUAGE_ROUNDS);
+  const categories = [...new Set(vocabulary.map(word => word.category))];
   return targets.map(target => {
     const otherCategories = shuffle(categories.filter(category => category !== target.category), random).slice(0, 3);
     const distractors = otherCategories.map(category =>
-      shuffle(VOCABULARY.filter(word => word.category === category), random)[0]
+      shuffle(vocabulary.filter(word => word.category === category), random)[0]
     );
     return { target, choices: shuffle([target, ...distractors], random) };
   });

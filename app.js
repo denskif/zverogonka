@@ -3,11 +3,14 @@ import {
   makeRound, checkAnswer, advanceRace, spiderWon
 } from './logic.mjs';
 import { LANGUAGE_ROUNDS, VOCABULARY, makeLanguageSession, languageWon } from './language.mjs';
+import { VERBS } from './verbs.mjs';
 
 const words = {
   ru: {
     title: 'Играй и учись', menu: 'Меню', menuTitle: 'Во что сыграем?',
-    raceMode: 'Гонки', raceModeHint: 'Считай конусы', learnMode: 'Учить язык', learnModeHint: 'Слушай болгарские слова',
+    raceMode: 'Гонки', raceModeHint: 'Считай конусы', learnMode: 'Учить слова', learnModeHint: 'Слушай болгарские слова',
+    learnCategoryTitle: 'Какие слова учим?', nouns: 'Существительные', nounsHint: 'Животные, еда и предметы',
+    verbs: 'Глаголы', verbsHint: 'Действия и движения',
     question: 'Сколько конусов на дороге?',
     correct: 'Верно! Человек-паук бежит быстрее!',
     wrong: 'Ой! Халк и Локи обогнали!',
@@ -23,7 +26,9 @@ const words = {
   },
   uk: {
     title: 'Грай і навчайся', menu: 'Меню', menuTitle: 'У що пограємо?',
-    raceMode: 'Перегони', raceModeHint: 'Порахуй конуси', learnMode: 'Вчити мову', learnModeHint: 'Слухай болгарські слова',
+    raceMode: 'Перегони', raceModeHint: 'Порахуй конуси', learnMode: 'Вчити слова', learnModeHint: 'Слухай болгарські слова',
+    learnCategoryTitle: 'Які слова вчимо?', nouns: 'Іменники', nounsHint: 'Тварини, їжа та предмети',
+    verbs: 'Дієслова', verbsHint: 'Дії та рухи',
     question: 'Скільки конусів на дорозі?',
     correct: 'Правильно! Людина-павук біжить швидше!',
     wrong: 'Ой! Галк і Локі обігнали!',
@@ -40,7 +45,7 @@ const words = {
 };
 
 const $ = id => document.getElementById(id);
-const screens = ['menuScreen', 'playScreen', 'finishScreen', 'learnScreen', 'learnFinishScreen'];
+const screens = ['menuScreen', 'playScreen', 'finishScreen', 'learnCategoryScreen', 'learnScreen', 'learnFinishScreen'];
 let language = localStorage.getItem('animal-race-language') === 'uk' ? 'uk' : 'ru';
 let soundOn = localStorage.getItem('animal-race-sound') !== 'off';
 let roundIndex = 0;
@@ -51,6 +56,8 @@ let resolved = false;
 let lastOutcome = null;
 let advanceTimer = null;
 let languageSession = [];
+let activeVocabulary = VOCABULARY;
+let activeWordType = 'nouns';
 let languageRoundIndex = 0;
 let languageScore = 0;
 let languageResolved = false;
@@ -83,7 +90,7 @@ function renderLanguage() {
   if ($('finishScreen').classList.contains('active')) renderResult();
   if (lastLanguageOutcome) $('learnFeedback').textContent = t(lastLanguageOutcome);
   $('pictureGrid').querySelectorAll('button').forEach(button => {
-    const word = VOCABULARY.find(item => item.id === button.dataset.word);
+    const word = activeVocabulary.find(item => item.id === button.dataset.word);
     if (word) button.setAttribute('aria-label', word[language]);
   });
   if ($('learnFinishScreen').classList.contains('active')) renderLanguageResult();
@@ -268,6 +275,7 @@ function renderLanguageRound() {
     button.setAttribute('aria-label', word[language]);
     const picture = document.createElement('span');
     picture.className = 'picture-illustration';
+    if (activeWordType === 'verbs') picture.classList.add('verb-illustration');
     picture.setAttribute('aria-hidden', 'true');
     picture.textContent = word.icon;
     button.append(picture);
@@ -315,11 +323,13 @@ function renderLanguageResult() {
   $('learnResultText').textContent = t('result', { stars: languageScore, rounds: LANGUAGE_ROUNDS });
 }
 
-function startLanguageGame() {
+function startLanguageGame(wordType = activeWordType) {
   clearTimeout(advanceTimer);
   clearTimeout(languageAdvanceTimer);
   stopLanguageSpeech();
-  languageSession = makeLanguageSession();
+  activeWordType = wordType;
+  activeVocabulary = wordType === 'verbs' ? VERBS : VOCABULARY;
+  languageSession = makeLanguageSession(activeVocabulary);
   languageRoundIndex = 0;
   languageScore = 0;
   showScreen('learnScreen');
@@ -330,14 +340,17 @@ function goMenu() {
   clearTimeout(advanceTimer);
   clearTimeout(languageAdvanceTimer);
   stopLanguageSpeech();
-  showScreen('menuScreen');
+  const fromLanguageGame = $('learnScreen').classList.contains('active') || $('learnFinishScreen').classList.contains('active');
+  showScreen(fromLanguageGame ? 'learnCategoryScreen' : 'menuScreen');
 }
 
 $('raceModeButton').addEventListener('click', startGame);
-$('learnModeButton').addEventListener('click', startLanguageGame);
+$('learnModeButton').addEventListener('click', () => showScreen('learnCategoryScreen'));
+$('nounsButton').addEventListener('click', () => startLanguageGame('nouns'));
+$('verbsButton').addEventListener('click', () => startLanguageGame('verbs'));
 $('homeButton').addEventListener('click', goMenu);
 $('againButton').addEventListener('click', startGame);
-$('learnAgainButton').addEventListener('click', startLanguageGame);
+$('learnAgainButton').addEventListener('click', () => startLanguageGame());
 $('replayButton').addEventListener('click', replayWord);
 $('languageButton').addEventListener('click', () => {
   language = language === 'ru' ? 'uk' : 'ru';

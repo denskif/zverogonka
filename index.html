@@ -31,7 +31,7 @@
       <h1 id="menuTitle" data-i18n="menuTitle">Во что сыграем?</h1>
       <div class="mode-grid">
         <button class="mode-card mode-race" id="raceModeButton" type="button"><span class="mode-art race-mode-art" aria-hidden="true"><img src="./assets/spider-runner.svg" alt=""><img src="./assets/hulk-runner.svg" alt=""><img src="./assets/loki-runner.svg" alt=""></span><span class="mode-name" data-i18n="raceMode">Гонки</span><span class="mode-description" data-i18n="raceModeHint">Считай конусы</span></button>
-        <button class="mode-card mode-learn" id="learnModeButton" type="button"><span class="mode-art learn-mode-art" aria-hidden="true"><img src="./assets/learn-menu.svg" alt=""></span><span class="mode-name" data-i18n="learnMode">Учить язык</span><span class="mode-description" data-i18n="learnModeHint">Слушай болгарские слова</span></button>
+        <button class="mode-card mode-learn" id="learnModeButton" type="button"><span class="mode-art learn-mode-art" aria-hidden="true"><img src="./assets/learn-menu.svg" alt=""></span><span class="mode-name" data-i18n="learnMode">Учить слова</span><span class="mode-description" data-i18n="learnModeHint">Слушай болгарские слова</span></button>
       </div>
     </section>
 
@@ -61,6 +61,14 @@
       <h1 id="finishTitle">Ура, Человек-паук победил!</h1>
       <p id="resultText"></p>
       <button class="primary-button" id="againButton" type="button" data-i18n="again">Играть ещё ↻</button>
+    </section>
+
+    <section class="screen" id="learnCategoryScreen" aria-labelledby="learnCategoryTitle">
+      <h1 id="learnCategoryTitle" data-i18n="learnCategoryTitle">Какие слова учим?</h1>
+      <div class="mode-grid word-kind-grid">
+        <button class="mode-card word-kind-card word-kind-nouns" id="nounsButton" type="button"><span class="word-kind-art" aria-hidden="true">🐶 🍎 📖</span><span class="mode-name" data-i18n="nouns">Существительные</span><span class="mode-description" data-i18n="nounsHint">Животные, еда и предметы</span></button>
+        <button class="mode-card word-kind-card word-kind-verbs" id="verbsButton" type="button"><span class="word-kind-art" aria-hidden="true">🏃 🎨 🧹</span><span class="mode-name" data-i18n="verbs">Глаголы</span><span class="mode-description" data-i18n="verbsHint">Действия и движения</span></button>
+      </div>
     </section>
 
     <section class="screen" id="learnScreen" aria-labelledby="learnTitle">
